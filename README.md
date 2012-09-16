@@ -40,19 +40,19 @@ int main (int argc, char *argv[])
 
 	/* Try to compile the program.  */
   if (comp_failed == compile_from_string (compiler, prog, libname))
-		goto out;
+	goto out;
 
   /* Load library.  */
-	if (! (lib = load_library (libname)))
-		goto out;
+  if (! (lib = load_library (libname)))
+	goto out;
 
   /* Load function.  */
-	fun = (int (*) ()) get_function (lib, funcname);
+  fun = (int (*) ()) get_function (lib, funcname);
 	if (!fun)
 		goto out;
 
   /* Use the function loaded.  */
-	printf ("function '%s' from '%s' returned '%d'\n", funcname, libname, fun ());
+  printf ("function '%s' from '%s' returned '%d'\n", funcname, libname, fun ());
 
 out:
 	if (lib)
@@ -71,5 +71,8 @@ is being used, unless the compiler can produce a shared library with visible sym
 
 Currently shared-library code is just a wrapper around dlfcn, however, it can be replaced
 with a different mechanism, assuming that the interface is being preserved.
+
+Currently it will work under unix environment, but it should be fairly easy
+to add similar functionality for say windows.
 
 Suggestions and patches are always appreciated.
