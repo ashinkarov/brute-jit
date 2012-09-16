@@ -28,38 +28,38 @@ static const char * const  funcname = "foo";
 int main (int argc, char *argv[])
 {
   void * lib = NULL;
-	int (*fun) ();
-	struct compiler * compiler;
-	int rc = EXIT_FAILURE;
+  int (*fun) ();
+  struct compiler * compiler;
+  int rc = EXIT_FAILURE;
 
-	/* This is a text of the program we will compile.  */
+  /* This is a text of the program we will compile.  */
   char prog[] = "int foo () { return 42; }";
-	
+
   /* Get a pre-defined set-up of the GCC compiler.  */
   compiler = compiler_get_gcc ();
 
-	/* Try to compile the program.  */
+  /* Try to compile the program.  */
   if (comp_failed == compile_from_string (compiler, prog, libname))
-	goto out;
+        goto out;
 
   /* Load library.  */
   if (! (lib = load_library (libname)))
-	goto out;
+        goto out;
 
   /* Load function.  */
   fun = (int (*) ()) get_function (lib, funcname);
-	if (!fun)
-		goto out;
+        if (!fun)
+                goto out;
 
   /* Use the function loaded.  */
   printf ("function '%s' from '%s' returned '%d'\n", funcname, libname, fun ());
 
 out:
-	if (lib)
-		if (close_library (lib))
-			rc = EXIT_SUCCESS;
-	return rc;
-	
+        if (lib)
+                if (close_library (lib))
+                        rc = EXIT_SUCCESS;
+        return rc;
+ 
 }
 ```
 
